@@ -4,7 +4,6 @@ public class MedidorTempo {
 	
 	
 	// Métodos baseados no Tempo
-
 	public void comeca() {
 		//Marca o inicio do tempo.
 		inicio = System.currentTimeMillis();

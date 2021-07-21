@@ -1,37 +1,23 @@
 public class Digrafo {
     
-    private Lista<Vertice> listaVertices, visitados;
+  	private Lista<Vertice> listaVertices;
+	private Lista<Arco> listaArcos;
 	private String nome;
 	private int numVertices, numArcos;
     
 	
-	//	Esta sendo considerado uma lista de adjacencia 
-	//	Criar métodos para simular tbm com matriz de adjacencia quando prob >= 0.8? Parte2?
-    
+	//Esta sendo considerado uma lista de adjacencia 
+
 	public Digrafo(String nome, int tamanho){
 		
 		this.nome = nome;
-		this.numVertices = tamanho;		//Tamanho de um grafo
+		this.numVertices = 0;		//Tamanho de um grafo
 		this.numArcos = 0;
-        this.listaVertices = new Lista<Vertice>();
+    	this.listaVertices = new Lista<>();
+		this.listaArcos = new Lista<>();
 		
     }
-
-
-   
-
-    
-
-
-	public void buscaEmProfundidade(Vertice a) {
-
-	}
-
-	public void buscaEmLargura(Vertice a){
-
-	}
-
-
+	
 
 	///////////////////////////////
     //     IMPRESSÃO / DEBUG     //
@@ -46,8 +32,7 @@ public class Digrafo {
 
 		int totalArcos = 0;
         
-        for(int i = 0; i < listaVertices.getQuantidadeItensLista(); i++){
-            
+      	for(int i = 0; i < listaVertices.getQuantidadeItensLista(); i++){    
 			Vertice v = listaVertices.getPelaPosicao(i);
 			v.imprimirVertice();
 			totalArcos += v.getNumeroArcos();
@@ -79,17 +64,37 @@ public class Digrafo {
         return false;
     }
 */
-
+  
 	public void adicionaVertice(Vertice v){
-        listaVertices.inserir(v);
-    }
+  		listaVertices.inserir(v);
+		numVertices++;
+
+		int qtdArcos = v.getNumeroArcos();
+		for(int i = 0; i < qtdArcos; i++){
+			Arco a = v.getListaArcos().getPelaPosicao(i);
+			listaArcos.inserir(a);
+			numArcos++;
+		}
+  	}
 
 	public Lista<Vertice> getVertices() { 
 		return this.listaVertices;
 	}
 
+	public Lista<Arco> getArcos() { 
+		return this.listaArcos;
+	}
+
 	public String toString(){
 		return this.nome;
+	}
+
+	public int getNumVertices(){
+		return this.numVertices;
+	}
+
+		public int getNumArcos(){
+		return this.numArcos;
 	}
 
 

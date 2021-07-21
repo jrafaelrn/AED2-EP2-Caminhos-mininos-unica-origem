@@ -1,4 +1,4 @@
-// Implementa uma lista baseada num vetor, com uso de tipos genericos
+// Implementa uma lista baseada num vetor, com uso de tipos genericos//-
 
 public class Lista <Tipo> {
 
@@ -8,8 +8,8 @@ public class Lista <Tipo> {
     @SuppressWarnings("unchecked")
     public Lista(){
 
-        dados = (Tipo []) new Object[1000];     //Valor a definir
-        qtdAtual = 0;
+		dados = (Tipo []) new Object[1000];     //Valor a definir
+		qtdAtual = 0;
 
     }
 
@@ -26,7 +26,7 @@ public class Lista <Tipo> {
         dados[qtdAtual] = objeto;
         qtdAtual++;       
 
-		System.out.println(objeto + "  - Quantidade atualizada: " + qtdAtual);
+		//System.out.println(objeto + "  - Quantidade atualizada: " + qtdAtual);
 
     }
 
@@ -67,6 +67,20 @@ public class Lista <Tipo> {
         }
 
     }
+
+
+	public int getPosicaoLista(Tipo objeto){
+
+		for(int i = 0; i < dados.length; i++){
+
+			if(dados[i] == objeto)
+				return i;
+
+		}
+
+		return -1;
+
+	}
 
 
     public int getQuantidadeItensLista(){

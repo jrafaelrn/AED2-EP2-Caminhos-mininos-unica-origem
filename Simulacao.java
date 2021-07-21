@@ -7,6 +7,7 @@ public class Simulacao{
 	private MedidorTempo medidor;
 	private Digrafo digrafo;
 
+
 	public Simulacao(int numVertices, double probabilidade, int custoMaximo) throws IOException {
 
 		this.numVertices = numVertices;
@@ -19,10 +20,29 @@ public class Simulacao{
 
 
 
-
-
 	public void simulaTudo() throws IOException {
 
+		System.out.print("Num Vertices:\t" + numVertices);
+		System.out.println("\t\tDensidade:\t" + (int) (probabilidade * 100) + " %");
+
+		gerarDigrafo();
+		simulaDijkstra();
+		simulaBellmanFord();
+
+		digrafo = new Digrafo("Digrafo", numVertices);
+
+		gerarDag();
+		simulaDijkstra();
+		simulaBellmanFord();
+		simnulaDagMin();
+
+	}
+
+
+
+
+	private void gerarDigrafo(){
+		
 		// Loop para gerar a conexao entre os Vertices baseado na probabilidade passada
 		for(int i = 0; i < numVertices; i++){
 
@@ -34,9 +54,10 @@ public class Simulacao{
 					Vertice vDestino = new Vertice(new Integer(j).toString());
 					
 					int custo = sorteiaCusto();
-					Arco arco = new Arco(vOrigem, vDestino,new Integer(j).toString(), custo);
+					Arco arco = new Arco(vOrigem, vDestino, custo);
 
-					
+					digrafo.adicionaVertice(vOrigem);
+					digrafo.adicionaVertice(vDestino);
 
 				}
 			
@@ -47,6 +68,72 @@ public class Simulacao{
 
 	}
 
+
+
+	private void gerarDag(){
+		
+		// Loop para gerar a conexao entre os Vertices baseado na probabilidade passada
+		for(int i = 0; i < numVertices; i++){
+
+			for(int j = i+1; j < numVertices; j++){
+
+				if(verticeConecta()){
+
+					Vertice vOrigem = new Vertice(new Integer(i).toString());
+					Vertice vDestino = new Vertice(new Integer(j).toString());
+					
+					int custo = sorteiaCusto();
+					Arco arco = new Arco(vOrigem, vDestino, custo);
+
+					digrafo.adicionaVertice(vOrigem);
+					digrafo.adicionaVertice(vDestino);
+
+				}
+			
+			}
+
+		}
+
+
+	}
+
+
+
+
+
+
+	private void simulaDijkstra(){
+
+		Vertice vInicial = digrafo.getVertices().getPelaPosicao(0);
+
+		Dijkstra dij = new Dijkstra(digrafo, vInicial);
+
+	}
+
+
+
+	private void simulaBellmanFord(){
+
+		Vertice vInicial = digrafo.getVertices().getPelaPosicao(0);
+
+		BellmanFord bf = new BellmanFord(digrafo, vInicial);
+
+	}
+
+
+
+
+	private void simnulaDagMin(){
+
+
+	}
+
+
+
+
+	//////////////////////////////////////////
+	//			MÉTODOS AUXILIARES			//
+	//////////////////////////////////////////
 
 	
 	// 	Método que devolve um booleano para indicar 
@@ -62,10 +149,12 @@ public class Simulacao{
 		return (int) Math.floor(Math.random() * (custoMaximo + 1));
 	}
 
-	///////////////////////////////
-	//			GRAVAÇÃO
-	//////////////////////////////
 
+	
+
+	//////////////////////////////////
+	//			GRAVAÇÃO		    //
+	//////////////////////////////////
 
 	public void gravarLog_bellmanFord(String log) throws IOException {
 		gravarArquivoLog("log_bellmanFord.txt", log);

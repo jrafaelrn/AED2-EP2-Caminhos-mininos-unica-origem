@@ -1,79 +1,48 @@
 
-
 public class Vertice { 
 
-    private Lista<Arco> listaArcos;
-    private boolean foiVisitado;
-    private int custoVertice, grauIndividualVertice, grauTotal;
+  public int custoVertice;
+  private Lista<Arco> listaArcos;
+  private int grauIndividualVertice, grauTotal;
 	private String verticeNome;
+	private Vertice pai;
 
 
 	public Vertice(String nome){
-		
+
 		this.verticeNome = nome;
 		this.listaArcos = new Lista<Arco>();
-        this.foiVisitado = false;
-        this.custoVertice = 0;
+    this.custoVertice = Integer.MAX_VALUE;		
+		this.pai = null;
 		
 	}
-
-
-/*
-	//Liga um vértice ao outro, criando um caminho
-	public void ligarCaminho(Vertice caminho){
-		if(!ehCaminho(caminho)){
-			vertices.inserir(caminho);
-			grauTotal++;
-		}
-	}
-
-	//Verifica se o vertice já está no caminho
-	public boolean ehCaminho(Vertice ligacao){
-		
-		for(int i = 0; i < this.vertices.getQuantidadeItensLista(); i++){
-
-			Vertice caminho = this.vertices.getPelaPosicao(i);
-
-			if(caminho == ligacao){
-				return true;
-			}
-		}
-		
-		return false;
-
-	}
-
-	
-	public void adicionaArco(Arco a){
-
-        if(!arcoExisteDigrafo(a))
-            listaArcos.inserir(a);
-
-    }
-*/
 
 
 	///////////////////////////////
     //     IMPRESSÃO / DEBUG     //
     //////////////////////////////
 
-
 	public void imprimirVertice(){
 
-        System.out.println("\nVertice = " + verticeNome);
-        System.out.println("Visitado? = " + foiVisitado);
+        System.out.println("\n" + this);
+        System.out.println("Visitado? = " + jaFoiVisitado());
         System.out.println("Custo Atual Vertice = " + custoVertice);
         
         for (int i = 0; i < listaArcos.getQuantidadeItensLista(); i++)
-            listaArcos.getPelaPosicao(i).imprimirArco();
+            System.out.println(listaArcos.getPelaPosicao(i));
 
     }
+
 
 
 
     ///////////////////////////
     //      GETs e SETs     //
     //////////////////////////
+
+	public String toString(){
+		return "Vertice: " + verticeNome;
+	}
 
 	public int getGrauTotal(){
 		return grauTotal;
@@ -91,19 +60,13 @@ public class Vertice {
 
 
     public boolean jaFoiVisitado(){
-		return foiVisitado;
+		return custoVertice != Integer.MAX_VALUE;		
 	}
 
 
-	public void marcarVisita(){
-		foiVisitado = true;
+	public void setCusto(int custo){
+		custoVertice = custo;
 	}
-
-
-    public void incrementaCusto(int custoAdicional){
-        custoVertice += custoAdicional;
-    }
-
 
     public int getCustoVertice(){
         return custoVertice;
@@ -115,6 +78,15 @@ public class Vertice {
 
 	public int getNumeroArcos(){
 		return listaArcos.getQuantidadeItensLista();
+	}
+
+
+	public void setPai(Vertice pai){
+		this.pai = pai;
+	}
+
+	public Vertice getPai(){
+		return this.pai;
 	}
 
 }
