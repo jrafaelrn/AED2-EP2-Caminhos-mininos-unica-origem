@@ -9,5 +9,10 @@ public class Link{
 		this.proximo = proximo;
 	}
 
+	public String toString(){
+		String retorno = "Arco ---> Para: " + posVerticeDestino + "\tCusto: " + custo;
+		return retorno;
+	}
+
 
 }

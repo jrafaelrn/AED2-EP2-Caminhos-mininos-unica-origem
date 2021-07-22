@@ -6,7 +6,6 @@ public class Dijkstra{
 	static final int INFINITO = Integer.MAX_VALUE;
   private int[] pai, custo;
 
-
 	public Dijkstra(Digrafo digrafo, int verticeOrigem){
 
 		this.digrafo = digrafo;
@@ -18,7 +17,6 @@ public class Dijkstra{
 
 		//Instancia o objeto e já executa o algoritmo de Dijkstra
 		dijkstra();
-		imprimeResultados();
 
 	}
 
@@ -26,9 +24,8 @@ public class Dijkstra{
 	private void dijkstra(){
 	
 		//Encontra o caminho mais curto, usar uma estrutura heap	 
-		int verticeAtual, verticeDestino;
+		int verticeAtual;
 		Link arco;
-
 
 		//Inicialização		
 		for (int i = 0; i < numVertices; i++){
@@ -38,12 +35,10 @@ public class Dijkstra{
 		
 		filaPrioridade.inicializar();    
 
-
 		//	Ajuste do Vertice Origem    
 		custo[verticeOrigem] = 0;
 		pai[verticeOrigem] = verticeOrigem;
 		filaPrioridade.inserir(verticeOrigem);
-
 
 		// Percorre todos os Vertices que estao na Fila de Prioridade
 		while(!filaPrioridade.estaVazia()){
@@ -52,10 +47,8 @@ public class Dijkstra{
 			arco = digrafo.getArco(verticeAtual);
 
 			while(arco != null)	{
-			
 				relaxa(verticeAtual, arco.posVerticeDestino, arco.custo);
 				arco = arco.proximo;
-
 			}
 			
 		}

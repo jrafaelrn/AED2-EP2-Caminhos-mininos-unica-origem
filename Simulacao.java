@@ -51,7 +51,7 @@ public class Simulacao{
 				if(verticeConecta() && i != j){
 
 					int custo = sorteiaCusto();
-					digrafo.setNovoArco(vOrigem, vDestino, custo);
+					digrafo.setNovoArco(i, j, custo);
 
 				}
 			
@@ -73,7 +73,7 @@ public class Simulacao{
 				if(verticeConecta()){
 					
 					int custo = sorteiaCusto();
-					digrafo.setNovoArco(vOrigem, vDestino, custo);
+					digrafo.setNovoArco(i, j, custo);
 
 				}
 			

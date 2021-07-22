@@ -6,7 +6,8 @@ class Main{
 		//testeEP();
 		//testeBellmanFord_Professor();
 		//testeDjikstra_Professor();
-		//testeYoutube();
+		testeYoutube();
+		//testeBellmanFord_ProfaYoutube();
 
 	}
 
@@ -87,14 +88,14 @@ class Main{
 
 
 
- /*
+ 
  
 	public static void testeBellmanFord_Professor(){
    
 		//SIMULANDO GRAFO DA AULA GRAVADA ==> https://youtu.be/lId3K8TI8aY?t=1192
 		//TESTE DO ALGORITMO DE BELLMAN_FORD
-		
-		Digrafo d1 = new Digrafo("Digrafo 1",8);
+		/*
+		Digrafo d1 = new Digrafo(8);
    
    	d1.adicionaVertice(v0);
 		d1.adicionaVertice(v1);
@@ -119,63 +120,63 @@ class Main{
 
 
 		d1.imprimirDigrafo();
-
+*/
 
 
 	}
 
 
 
-	// 
+	public static void testeBellmanFord_ProfaYoutube(){
+
+		//https://www.youtube.com/watch?v=vEztwiTELWs
+
+		Digrafo d1 = new Digrafo(5);
+
+		d1.setNovoArco(0, 1, 6);
+		d1.setNovoArco(0, 3, 7);
+		d1.setNovoArco(1, 3, 8);
+		d1.setNovoArco(1, 4, -4);
+		d1.setNovoArco(1, 2, 5);
+		d1.setNovoArco(2, 1, -2);
+		d1.setNovoArco(3, 2, -3);
+		d1.setNovoArco(3, 4, 9);
+		d1.setNovoArco(3, 1, 1);
+		d1.setNovoArco(4, 2, 7);
+		d1.setNovoArco(4, 0, 2);
+
+		d1.imprimirDigrafo();
+
+		BellmanFord bf = new BellmanFord(d1, 0);
+
+	}
+
+
+
+	
 	public static void testeYoutube(){
    
 		//SIMULANDO YOUTUBE => https://www.youtube.com/watch?v=dx0vUNkARSw
 		//TESTE DO ALGORITMO DE BELLMAN_FORD
 		
-		Digrafo d1 = new Digrafo("Digrafo 1",8);
-   
-		Vertice a = new Vertice("A");
-		Vertice b = new Vertice("B");
-		Vertice c = new Vertice("C");
-		Vertice d = new Vertice("D");
-		Vertice e = new Vertice("E");
-
-    	d1.adicionaVertice(a);
-		d1.adicionaVertice(b);
-		d1.adicionaVertice(c);
-		d1.adicionaVertice(d);
-		d1.adicionaVertice(e);
+		Digrafo d1 = new Digrafo(5);
     
-		Arco a1 = new Arco(a,b,4); 
-		Arco a2 = new Arco(a,d,2); 
-		Arco a3 = new Arco(b,d,3); 
-		Arco a4 = new Arco(b,c,2); 
-		Arco a5 = new Arco(b,e,3); 
-		Arco a6 = new Arco(d,b,3); 
-		Arco a7 = new Arco(d,c,4); 
-		Arco a8 = new Arco(d,e,5); 
-		Arco a9 = new Arco(e,c,-5); 
-		
-		
+		d1.setNovoArco(0,1,4); 
+		d1.setNovoArco(0,3,2); 
+		d1.setNovoArco(1,2,2); 
+		d1.setNovoArco(1,4,3); 
+		d1.setNovoArco(1,3,3); 
+		d1.setNovoArco(3,4,5); 
+		d1.setNovoArco(3,2,4); 
+		d1.setNovoArco(3,1,1); 
+		d1.setNovoArco(4,2,-5); 		
 
 		d1.imprimirDigrafo();
-
 
 		//Encontra caminho minino com BELLMAN-FORD
-		BellmanFord bf = new BellmanFord(d1, a);
-
-
-		d1.imprimirDigrafo();
-
-
+		BellmanFord bf = new BellmanFord(d1, 0);
 
 	}
-
-
-
-
-*/
-
 
 
 }
