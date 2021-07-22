@@ -6,13 +6,9 @@ class Main{
 		//testeEP();
 		//testeBellmanFord_Professor();
 		//testeDjikstra_Professor();
-		testeYoutube();
+		//testeYoutube();
 
 	}
-
-
-
-
 
 
 
@@ -20,50 +16,43 @@ class Main{
 	
     public static void testeEP(){
 
-		System.out.println("\n\n********************************************");
-		System.out.println("*********  INICIANDO SIMULACAO  ************");
-		System.out.println("********************************************\n");
+			System.out.println("\n\n********************************************");
+			System.out.println("*********  INICIANDO SIMULACAO  ************");
+			System.out.println("********************************************\n");
         
         // Loop para simular diferentes tamanhos entradas
         for (int tam = 1000; tam <= 10000; tam+=1000){
 
-			System.out.println("\n---- Tamanho:\t" + tam);
+					System.out.println("\n---- Tamanho:\t" + tam);
          
-            // Loop para simular diferentes probabilidades/densidades
-            for (double prob = 1; prob < 10; prob++){
+          // Loop para simular diferentes probabilidades/densidades
+          for (double prob = 1; prob < 10; prob++){
 
-				double probabilidade = prob/10;
-				int numVertices = getNumeroVertices(tam, probabilidade);
+						double probabilidade = prob/10;
+						int numVertices = Simulacao.getNumeroVertices(tam, probabilidade);
                 
-                try{
-                    Simulacao simula = new Simulacao(numVertices, probabilidade, 1000); 		//Variar custo maximo?
-					simula.simulaTudo();
-                }
-                catch (Exception e){
-                    System.out.println(" !!! Erro na simulacao !!!");
-                    e.printStackTrace();
-                }
-
+            try{
+                Simulacao simula = new Simulacao(numVertices, probabilidade, 1000); 		//Variar custo maximo?
+								simula.simulaTudo();
             }
+						catch (Exception e){
+								System.out.println(" !!! Erro na simulacao !!!");
+								e.printStackTrace();
+						}
+
+          }
 
         }
 
-
-		System.out.println("\n\n********************************************");
-		System.out.println("**********  FINALIZANDO SIMULACAO   ********");
-		System.out.println("********************************************");
+			System.out.println("\n\n********************************************");
+			System.out.println("**********  FINALIZANDO SIMULACAO   ********");
+			System.out.println("********************************************");
 
     }
 
 
 
 	
-	static int getNumeroVertices(int tamanhoEntrada, double probabilidade){
-
-		double num = (probabilidade - 1) + Math.sqrt((Math.pow((1 - probabilidade),2) + 4 * probabilidade * tamanhoEntrada)) / (2 * probabilidade);
-		return (int) Math.round(num);
-
-	}
 
    
 
@@ -72,46 +61,25 @@ class Main{
 	public static void testeDjikstra_Professor(){
    
 		//SIMULANDO GRAFO DA AULA GRAVADA ==> https://youtu.be/jTH4eHf-lik?t=1467
-		//TESTE DO ALGORITMO DE DIJKSTRA
+		//TESTE DO ALGORITMO DE DIJKSTRA >> OK
 		
-		Digrafo d1 = new Digrafo("Digrafo 1",8);
-   
-		Vertice v0 = new Vertice("0");
-		Vertice v1 = new Vertice("1");
-		Vertice v2 = new Vertice("2");
-		Vertice v3 = new Vertice("3");
-		Vertice v4 = new Vertice("4");
-		Vertice v5 = new Vertice("5");
+		Digrafo d1 = new Digrafo(6);
 
-    	d1.adicionaVertice(v0);
-		d1.adicionaVertice(v1);
-		d1.adicionaVertice(v2);
-		d1.adicionaVertice(v3);
-		d1.adicionaVertice(v4);
-		d1.adicionaVertice(v5);
-    
-		Arco a1 = new Arco(v0,v2,7); 
-		Arco a2 = new Arco(v0,v4,4); 
-		Arco a3 = new Arco(v0,v3,2); 
-		Arco a4 = new Arco(v1,v2,0); 
-		Arco a5 = new Arco(v2,v4,1); 
-		Arco a6 = new Arco(v3,v4,1); 
-		Arco a7 = new Arco(v3,v5,3); 
-		Arco a8 = new Arco(v4,v1,4); 
-		Arco a9 = new Arco(v4,v5,1); 
-		Arco a10 = new Arco(v5,v1,2);
-
+		d1.setNovoArco(0, 3, 2);
+		d1.setNovoArco(0, 4, 4);
+		d1.setNovoArco(0, 2, 7);
+		d1.setNovoArco(1, 2, 0);
+		d1.setNovoArco(2, 4, 1);
+		d1.setNovoArco(3, 5, 3);
+		d1.setNovoArco(3, 4, 1);
+		d1.setNovoArco(4, 5, 1);
+		d1.setNovoArco(4, 1, 4);
+		d1.setNovoArco(5, 1, 2);
 
 		d1.imprimirDigrafo();
-
 
 		//	Encontra caminho minino com DIJKSTRA
-		Dijkstra dij = new Dijkstra(d1, v0);
-
-
-		d1.imprimirDigrafo();
-
-
+		Dijkstra dij = new Dijkstra(d1, 0);
 
 	}
 
@@ -119,7 +87,7 @@ class Main{
 
 
 
- 
+ /*
  
 	public static void testeBellmanFord_Professor(){
    
@@ -128,13 +96,7 @@ class Main{
 		
 		Digrafo d1 = new Digrafo("Digrafo 1",8);
    
-		Vertice v0 = new Vertice("0");
-		Vertice v1 = new Vertice("1");
-		Vertice v2 = new Vertice("2");
-		Vertice v3 = new Vertice("3");
-		Vertice v4 = new Vertice("4");
-
-    	d1.adicionaVertice(v0);
+   	d1.adicionaVertice(v0);
 		d1.adicionaVertice(v1);
 		d1.adicionaVertice(v2);
 		d1.adicionaVertice(v3);
@@ -212,7 +174,7 @@ class Main{
 
 
 
-
+*/
 
 
 

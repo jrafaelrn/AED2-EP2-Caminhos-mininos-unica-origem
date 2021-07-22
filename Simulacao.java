@@ -14,7 +14,7 @@ public class Simulacao{
 		this.probabilidade = probabilidade;
 		this.custoMaximo = custoMaximo;
 		this.medidor = new MedidorTempo();
-		this.digrafo = new Digrafo("Digrafo", numVertices);
+		this.digrafo = new Digrafo(numVertices);
 
 	}
 
@@ -29,12 +29,12 @@ public class Simulacao{
 		simulaDijkstra();
 		simulaBellmanFord();
 
-		digrafo = new Digrafo("Digrafo", numVertices);
+		digrafo = new Digrafo(numVertices);
 
 		gerarDag();
 		simulaDijkstra();
 		simulaBellmanFord();
-		simnulaDagMin();
+		simulaDagMin();
 
 	}
 
@@ -50,21 +50,14 @@ public class Simulacao{
 
 				if(verticeConecta() && i != j){
 
-					Vertice vOrigem = new Vertice(new Integer(i).toString());
-					Vertice vDestino = new Vertice(new Integer(j).toString());
-					
 					int custo = sorteiaCusto();
-					Arco arco = new Arco(vOrigem, vDestino, custo);
-
-					digrafo.adicionaVertice(vOrigem);
-					digrafo.adicionaVertice(vDestino);
+					digrafo.setNovoArco(vOrigem, vDestino, custo);
 
 				}
 			
 			}
 
 		}
-
 
 	}
 
@@ -78,15 +71,9 @@ public class Simulacao{
 			for(int j = i+1; j < numVertices; j++){
 
 				if(verticeConecta()){
-
-					Vertice vOrigem = new Vertice(new Integer(i).toString());
-					Vertice vDestino = new Vertice(new Integer(j).toString());
 					
 					int custo = sorteiaCusto();
-					Arco arco = new Arco(vOrigem, vDestino, custo);
-
-					digrafo.adicionaVertice(vOrigem);
-					digrafo.adicionaVertice(vDestino);
+					digrafo.setNovoArco(vOrigem, vDestino, custo);
 
 				}
 			
@@ -94,9 +81,7 @@ public class Simulacao{
 
 		}
 
-
 	}
-
 
 
 
@@ -104,7 +89,7 @@ public class Simulacao{
 
 	private void simulaDijkstra(){
 
-		Vertice vInicial = digrafo.getVertices().getPelaPosicao(0);
+		int vInicial = 0; 	// Num aleatório ??
 
 		Dijkstra dij = new Dijkstra(digrafo, vInicial);
 
@@ -114,7 +99,7 @@ public class Simulacao{
 
 	private void simulaBellmanFord(){
 
-		Vertice vInicial = digrafo.getVertices().getPelaPosicao(0);
+		int vInicial = 5; // Num aleatório ??
 
 		BellmanFord bf = new BellmanFord(digrafo, vInicial);
 
@@ -123,7 +108,7 @@ public class Simulacao{
 
 
 
-	private void simnulaDagMin(){
+	private void simulaDagMin(){
 
 
 	}
@@ -132,7 +117,7 @@ public class Simulacao{
 
 
 	//////////////////////////////////////////
-	//			MÉTODOS AUXILIARES			//
+	//					MÉTODOS AUXILIARES					//
 	//////////////////////////////////////////
 
 	
@@ -150,10 +135,16 @@ public class Simulacao{
 	}
 
 
+	static int getNumeroVertices(int tamanhoEntrada, double probabilidade){
+
+		double num = (probabilidade - 1) + Math.sqrt((Math.pow((1 - probabilidade),2) + 4 * probabilidade * tamanhoEntrada)) / (2 * probabilidade);
+		return (int) Math.round(num);
+
+	}
 	
 
 	//////////////////////////////////
-	//			GRAVAÇÃO		    //
+	//					GRAVAÇÃO		  			//
 	//////////////////////////////////
 
 	public void gravarLog_bellmanFord(String log) throws IOException {

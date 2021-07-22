@@ -1,101 +1,107 @@
-  public class Dijkstra{ 
+public class Dijkstra{ 
 
 	private Digrafo digrafo;
-	private Vertice verticeOrigem, raiz;
+	private int verticeOrigem, numVertices;
 	private MinHeap filaPrioridade;
 	static final int INFINITO = Integer.MAX_VALUE;
+  private int[] pai, custo;
 
 
-
-	public Dijkstra(Digrafo digrafo, Vertice verticeOrigem){
+	public Dijkstra(Digrafo digrafo, int verticeOrigem){
 
 		this.digrafo = digrafo;
 		this.verticeOrigem = verticeOrigem;
-		this.filaPrioridade = new MinHeap(digrafo.getNumVertices());
+		this.numVertices = digrafo.getNumVertices();
+		this.custo = new int[numVertices];
+		this.filaPrioridade = new MinHeap(numVertices, custo);
+		this.pai = new int[numVertices];		
 
-		//	Instancia o objeto e já executa o algoritmo de Dijkstra
+		//Instancia o objeto e já executa o algoritmo de Dijkstra
 		dijkstra();
+		imprimeResultados();
+
 	}
 
 
-
-
 	private void dijkstra(){
-
-		//System.out.println("\n\t........ Iniciando DIJKSTRA ........\n");
 	
-		//	Encontra o caminho mais curto, usar uma estrutura heap	 
-		Vertice verticeAtual, verticeDestino;
-		Arco p;
+		//Encontra o caminho mais curto, usar uma estrutura heap	 
+		int verticeAtual, verticeDestino;
+		Link arco;
 
 
-		//	Inicialização
-		int numVertices = digrafo.getNumVertices();
-		Lista<Vertice> vertices = digrafo.getVertices();
-		
+		//Inicialização		
 		for (int i = 0; i < numVertices; i++){
-			Vertice v = vertices.getPelaPosicao(i);
-			v.setCusto(INFINITO);
-			v.setPai(null);
+		  custo[i] = INFINITO;	
+			pai[i] = -1;
 		}  
+		
+		filaPrioridade.inicializar();    
 
 
-		filaPrioridade.inicializar();
-
-		verticeOrigem.setCusto(0);
-		verticeOrigem.setPai(verticeOrigem);
-
+		//	Ajuste do Vertice Origem    
+		custo[verticeOrigem] = 0;
+		pai[verticeOrigem] = verticeOrigem;
 		filaPrioridade.inserir(verticeOrigem);
 
 
 		// Percorre todos os Vertices que estao na Fila de Prioridade
 		while(!filaPrioridade.estaVazia()){
 
-		verticeAtual = filaPrioridade.minHeap();
+			verticeAtual = filaPrioridade.delMin();
+			arco = digrafo.getArco(verticeAtual);
 
-			//System.out.println("\n\t xxxxxxxxxx  MIN-HEAP retirado: " + verticeAtual);
-			Lista<Arco> arcos = verticeAtual.getListaArcos();
-			int qtdArcos = arcos.getQuantidadeItensLista();
-	
+			while(arco != null)	{
 			
-			//	Laço para passar por todos os arcos de cada Vertice
-			for(int i = 0; i < qtdArcos; i++){
+				relaxa(verticeAtual, arco.posVerticeDestino, arco.custo);
+				arco = arco.proximo;
 
-				Arco arcoAtual = arcos.getPelaPosicao(i);
-				verticeDestino = arcoAtual.getVerticeDestino();
-				//System.out.println("...Avaliando arco para: " + verticeDestino);
-				
-				int custoArco = arcoAtual.getCusto();
-				int custoVerticeAtual = verticeAtual.getCustoVertice();
-				int custoVerticeDestino = verticeDestino.getCustoVertice();
+			}
+			
+		}
+
+	}
 
 
-				// Relaxamento
-				if (!verticeDestino.jaFoiVisitado()){				
-					//System.out.println("\n\n\t\t!! Marcando primeira visita !! - Custo acumulado: " + (custoVerticeAtual + custoArco) + "\n");	
-					verticeDestino.setCusto(custoVerticeAtual + custoArco);
-					verticeDestino.setPai(verticeAtual);
-					filaPrioridade.inserir(verticeDestino);
- 				}
-				else{
+	private void relaxa(int verticeAtual, int verticeDestino, int custoArco){
 
-					if (custoVerticeDestino > custoVerticeAtual + custoArco){
-						//System.out.println("\n\n\t\t!! Atualizando Custo !! - Custo acumulado: " + (custoVerticeAtual + custoArco) + "\n");		
-						verticeDestino.setCusto(custoVerticeAtual + custoArco);
-						verticeDestino.setPai(verticeAtual);
-						filaPrioridade.alterarPrioridade(verticeDestino);
-					}
+		if (custo[verticeDestino] == INFINITO){				
 
-				}
- 				
+			custo[verticeDestino] = custo[verticeAtual] + custoArco;
+			pai[verticeDestino] = verticeAtual;
+			filaPrioridade.inserir(verticeDestino);
+
+		}
+		else{
+
+			if (custo[verticeDestino] > (custo[verticeAtual] + custoArco)){
+
+				custo[verticeDestino] = custo[verticeAtual] + custoArco;
+				pai[verticeDestino] = verticeAtual;
+				filaPrioridade.alterarPrioridade(verticeDestino);
 
 			}
 
 		}
 
-		//System.out.println("\n\t........ Finalizando DIJKSTRA ........\n");
-
 	}
 
+
+
+	private void imprimeResultados(){
+
+		System.out.println("\n\n------- RESULTADOS -------");
+
+		System.out.println("\n------- CUSTOS");
+		for(int i = 0; i < numVertices; i++){
+			System.out.println("Custo[" + i + "] = " + custo[i]);
+		}
+
+		System.out.println("\n------- PAIS");
+		for(int i = 0; i < numVertices; i++){
+			System.out.println("Pai[" + i + "] = " + pai[i]);
+		}
+
+	}
 
 }

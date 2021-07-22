@@ -1,24 +1,23 @@
 public class BellmanFord { 
 
-	//private int[][] custo;
-  	private int[] custo;
+  private int[] custo;
 	private Vertice[] pais;
 	private int totalVertices, totalArcos;
-	private Vertice verticeOrigem;
+	private int verticeOrigem;
 	private Digrafo digrafo;
 	static final int INFINITO = Integer.MAX_VALUE;
 
 
-	public BellmanFord(Digrafo digrafo, Vertice verticeOrigem){
+	public BellmanFord(Digrafo digrafo, int verticeOrigem){
 
-		totalVertices = digrafo.getVertices().getQuantidadeItensLista();
+		/*totalVertices = digrafo.getVertices().getQuantidadeItensLista();
 		custo = new int[totalVertices];
 		pais = new Vertice[totalVertices];
 		this.verticeOrigem = verticeOrigem;
 		this.digrafo = digrafo;
 
 
-		//	Instancia o objeto e já executa o algoritmo de Bellman-Ford
+		//Instancia o objeto e já executa o algoritmo de Bellman-Ford
 		if (bellman_Ford())	
 			System.out.println("\nBellmanFord = OK");
 		else
@@ -39,7 +38,7 @@ public class BellmanFord {
     
 		//Etapa 1: preencha a matriz de distância e a matriz pai
 		for(int i = 0; i < totalVertices; i++){
-    		custo[i] = INFINITO;
+    	custo[i] = INFINITO;
 			pais[i] = null;
 		}
 
@@ -50,7 +49,7 @@ public class BellmanFord {
 		custo[posicaoVerticeOrigem_ListaVertices] = 0;    
   
 
-      	//Etapa 2: relaxar as arestas | V | - 1 vez
+    //Etapa 2: relaxar as arestas | V | - 1 vez
 		System.out.println("\n\n --------- Etapa 2");
 
 		for(int i = 0; i < totalVertices; i++){
@@ -128,18 +127,18 @@ public class BellmanFord {
 
 		System.out.println("\n\t........ Finalizando BELLMAN-FORD .......\n");
 		return true;
+		*/
 
 	}
 
 
 /*
-
 int totalArestas = digrafo.numArcos;
 
 //Etapa 1: preencha a matriz de distância e a matriz pai
 for(int i = 0; i < totalVertices; i++){
 custo[i] = INFINITO;
-//pais[i] = -1;
+//pais[i] = null;
 }
 
 int custoArco = arcoAtual.getCusto();
