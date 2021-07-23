@@ -10,7 +10,6 @@
 		this.custo = custo;
 		Heap = new int[maxTamanho+1];
 		qp = new int[maxTamanho];
-		
 	}
   
 

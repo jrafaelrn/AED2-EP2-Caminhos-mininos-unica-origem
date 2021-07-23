@@ -5,7 +5,7 @@ Grafo acíciclo direcionado, seria um grafo sem ciclo, se
 existir um caminho entre o vértice A até o B, os vértices são
 relaxados na ordem da Topologia, vai um por um.
 
-https://www.youtube.com/watch?v=xUZzMGQlhgY&t=779s
+
 
 VAMOS USAR UMA PILHA PARA FAZER A ORDENAÇÃO TOPOLÓGICA E
 PRECISA PEGAR VÉRTICE POR VÉRTICE SEGUINDO ESSA ORDENAÇÃO
@@ -15,89 +15,182 @@ VAI MELHORANDO O CUSTO SEGUINDO A ORDENAÇÃO TOPOLÓGICA
 
 */
 
-private int[] custo;
-private boolean[] visitados;
-private int[] pai;
-private int totalVertices, totalArcos;
-private int verticeOrigem;
-private Digrafo digrafo;
-private int[] pilha;
-static final int INFINITO = Integer.MAX_VALUE;
+	private int[] custo, pai, in, ts, pilha;
+	private int numVertices, verticeOrigem, ultimoPilha;
+	private Digrafo digrafo;
+	static final int INFINITO = Integer.MAX_VALUE;
 
 
-public DagMin(Digrafo digrafo, int verticeOrigem){
-custo = new int[totalVertices];
-this.verticeOrigem = verticeOrigem;
-this.digrafo = digrafo;
-this.pilha = new int[totalVertices];
-this.pai = new int[totalVertices];
-//dagMin(verticeOrigem);
-}
-
- /*  
-    void ordemTopologica(int vertices) {
-        visitados[vertices] = true;//verificado
+	public DagMin(Digrafo digrafo, int verticeOrigem){
 		
-        //Percorrer todos os vértices na lista de adjacecia
+		this.verticeOrigem = verticeOrigem;
+		this.digrafo = digrafo;
+		numVertices = digrafo.getNumVertices();
+		custo = new int[numVertices];
+		pilha = new int[numVertices];
+		pai = new int[numVertices];
+		in = new int[numVertices];
+		ts = new int[numVertices];
+		ultimoPilha = 0;
 
-            if (!visitados[vertice]) {
-                ordemTopologica(vertice);
-            }
-        
-       //No final empilhar os vértices no vetor pilha 
-       criando uma ordenação topologica
-    } 
-	
+		dagMin();
+		imprimeResultados();
 
-     void dagMin(int vertice_origem) {
-     Link p;
-     int j, v;
-
-      1° PARTE
-        //Classifique topologicamente os vértices
-        for(int i = 0; i < totalVertices; i++) {
-        if (!visitados[i]) {
-        ordemTopologica(i);
-      }
-
-      
-      2° PARTE
-      //Inicializar o custo do vértice de origem para todos os outros vértices como INFINITO.
-      
-      for(v = 0; v < totalVertices; v++){
-      custo[v] = INFINITO;
-      }
-
-      //A distância / custo do vértice de origem até ele mesmo é 0.
-      custo[vertice_origem] = 0;
-
-
-      3° PARTE 
-      //Apartir da ordem topologica 
-      //Enquanto a pilha não estiver vazia, pegue o vértice do topo
-      //No final para cada vértice A adjacente a B relaxe a aresta de B->A
-
-
-        }
+	}
 
 
 
-   private void relaxa(int verticeAtual, int verticeDestino, int custoArco){
+	private void dagMin() {
+			
+		Link p;
+		int i, v;
 
-		if (custo[verticeDestino] == INFINITO){				
-		custo[verticeDestino] = custo[verticeAtual] + custoArco;
-		pai[verticeDestino] = verticeAtual;
-		}
-		else{
-		if (custo[verticeDestino] > (custo[verticeAtual] + custoArco)){		
-		custo[verticeDestino] = custo[verticeAtual] + custoArco;
-		pai[verticeDestino] = verticeAtual;
+		//	1° PARTE - Classifique topologicamente os vértices
+		gerarOrdenacaoTopologica();
 
+
+		//	2° PARTE - Inicializar o custo do vértice de origem para todos os outros vértices como INFINITO.		
+		for(v = 0; v < numVertices; v++)
+			custo[v] = INFINITO;
+		
+
+		//A distância / custo do vértice de origem até ele mesmo é 0.
+		custo[verticeOrigem] = 0;
+
+
+		//	3° PARTE 
+		//Apartir da ordem topologica 
+		//Enquanto a pilha não estiver vazia, pegue o vértice do topo
+		//No final para cada vértice A adjacente a B relaxe a aresta de B->A
+		for (v = ts[i=0]; i < numVertices; v = ts[i++]){
+
+			if (custo[v] == INFINITO) continue;
+
+			Link arco = digrafo.getArco(v);
+
+			while (arco != null){				
+				relaxa(v, arco.posVerticeDestino, arco.custo);
+				arco = arco.proximo;
 			}
 
 		}
 
 	}
-*/
+
+
+	private void gerarOrdenacaoTopologica(){
+
+		int v;
+
+		//	Zera os graus de entrada de todos os vertices
+		for(v = 0; v < numVertices; v++)
+			in[v] = 0;
+
+		
+		//	Calcula o grau de entrada de cada vertice
+		for(v = 0; v < numVertices; v++){
+			
+			Link arco = digrafo.getArco(v);
+
+			while(arco != null){
+				in[arco.posVerticeDestino]++;
+				arco = arco.proximo;
+			}
+
+		}
+
+
+		//	Empilha todos os vertices "FONTES"
+		for(v = 0; v < numVertices; v++)
+			if(in[v] == 0)
+				empilha(v);
+
+
+		//		Retira da pilha os vertices fontes e decrementa os graus de entrada dos vertices de destino
+		for(int i = 0; ultimoPilha > 0; i++){
+
+			ts[i] = v = desempilha();
+			Link arco = digrafo.getArco(v);
+
+			while(arco != null){
+		
+				if (--in[arco.posVerticeDestino] == 0)
+					empilha(arco.posVerticeDestino);
+				
+				arco = arco.proximo;
+
+			}			
+
+		}
+
+	}
+	
+
+
+	private void relaxa(int verticeAtual, int verticeDestino, int custoArco){
+
+		if (custo[verticeDestino] > (custo[verticeAtual] + custoArco)){		
+			custo[verticeDestino] = custo[verticeAtual] + custoArco;
+			pai[verticeDestino] = verticeAtual;
+		}
+
+	}
+
+
+
+	public void empilha(int vertice){
+
+		pilha[ultimoPilha] = vertice;
+		ultimoPilha++;
+
+	}
+
+
+	public int desempilha(){
+
+		int retorno = pilha[ultimoPilha-1];
+		ultimoPilha--;
+		return retorno;
+
+	}
+
+
+
+
+	private void imprimePilha(){
+
+		System.out.println("\nUltimoPilha = " + ultimoPilha);
+
+		for(int i = 0; i < numVertices; i++)
+			System.out.println("Pilha[" + i + "] = " + pilha[i]);
+
+	}
+
+
+	private void imprimirGrausEntrada(){
+		
+		System.out.println("\n --> --> Graus de ENTRADA CALCULADOS");
+		
+		for(int x = 0; x < numVertices; x++)
+			System.out.println("IN[" + x + "] = " + in[x]);
+
+	}
+
+
+	private void imprimeResultados(){
+
+		System.out.println("\n\n------- RESULTADOS -------");
+
+		System.out.println("\n------- CUSTOS");
+		for(int i = 0; i < numVertices; i++){
+			System.out.println("Custo[" + i + "] = " + custo[i]);
+		}
+
+		System.out.println("\n------- PAIS");
+		for(int i = 0; i < numVertices; i++){
+			System.out.println("Pai[" + i + "] = " + pai[i]);
+		}
+
+	}
 
 }

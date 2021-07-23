@@ -10,7 +10,7 @@ public class Link{
 	}
 
 	public String toString(){
-		String retorno = "Arco ---> Para: " + posVerticeDestino + "\tCusto: " + custo;
+		String retorno = "Arco ---> Para: " + posVerticeDestino + " - Custo: " + custo;
 		return retorno;
 	}
 

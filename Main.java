@@ -6,7 +6,8 @@ class Main{
 		//testeEP();
 		//testeBellmanFord_Professor();
 		//testeDjikstra_Professor();
-		testeYoutube();
+		testeDagMin_Professor();
+		//testeYoutube();
 		//testeBellmanFord_ProfaYoutube();
 
 	}
@@ -175,6 +176,32 @@ class Main{
 
 		//Encontra caminho minino com BELLMAN-FORD
 		BellmanFord bf = new BellmanFord(d1, 0);
+
+	}
+
+
+	public static void testeDagMin_Professor(){
+
+		//https://www.youtube.com/watch?v=xUZzMGQlhgY&t=779s
+
+		Digrafo d1 = new Digrafo(6);
+    
+		d1.setNovoArco(0,3,4); 
+		d1.setNovoArco(0,2,2); 
+		d1.setNovoArco(0,4,3); 
+		d1.setNovoArco(2,4,-1); 
+		d1.setNovoArco(2,1,1); 
+		d1.setNovoArco(3,5,1); 
+		d1.setNovoArco(3,4,-2); 
+		d1.setNovoArco(4,5,1); 
+		d1.setNovoArco(4,1,0); 		
+		d1.setNovoArco(5,1,2); 		
+
+		d1.imprimirDigrafo();
+
+		DagMin dg = new DagMin(d1, 0);
+
+
 
 	}
 

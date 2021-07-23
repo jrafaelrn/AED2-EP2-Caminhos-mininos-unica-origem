@@ -43,21 +43,21 @@ public class BellmanFord {
 			pai[v] = -1;
 		}
 
-		filaPrioridade.inicializar(); 
+		filaPrioridade.inicializar();
 
-		custo[verticeOrigem] = 0;    
+		custo[verticeOrigem] = 0;   
   	Link arco;
 		filaPrioridade.inserir(verticeOrigem);  
 
 
     //Etapa 2: relaxar as arestas | V | - 1 vez
-		System.out.println("\n\n --------- Etapa 2");
+		 System.out.println("\n\n --------- Etapa 2");
 		
 		// Percorre todos os Vertices que estao na Fila de Prioridade
 		while(!filaPrioridade.estaVazia()){
 
 			verticeAtual = filaPrioridade.delMin();		
-			System.out.println("\n\t xxxxxxxxxx  MIN-HEAP retirado - Vertice " + verticeAtual);
+			//System.out.println("\n\t xxxxxxxxxx  MIN-HEAP retirado - Vertice " + verticeAtual);
 			arco = digrafo.getArco(verticeAtual);
 
 			while(arco != null)	{
@@ -75,11 +75,12 @@ public class BellmanFord {
 		System.out.println("\n\n --------- Etapa 3");
 
 		for(verticeAtual = 0; verticeAtual < numVertices; verticeAtual++){			
-			
+
+				System.out.println("\nVertice analisado: " + verticeAtual);
 				arco = digrafo.getArco(verticeAtual);
 
 				while(arco != null)	{
-				
+					System.out.println(arco);
 					if (custo[arco.posVerticeDestino] > custo[verticeAtual] + arco.custo)
 						return false;
 
@@ -98,11 +99,8 @@ public class BellmanFord {
 
 	private void relaxa(int verticeAtual, int verticeDestino, int custoArco){
 
-		System.out.println("\nRelaxando Vertice INICIAL " + verticeAtual + " - Vertice DESTINO: " + verticeDestino + " - Custo: " + custoArco);
-
 		if (custo[verticeDestino] == INFINITO){				
 
-			System.out.println("\n\n\t\t!! Marcando primeira visita !! - Custo acumulado: " + (custo[verticeAtual] + custoArco) + "\n");	
 			custo[verticeDestino] = custo[verticeAtual] + custoArco;
 			pai[verticeDestino] = verticeAtual;
 			filaPrioridade.inserir(verticeDestino);
@@ -112,7 +110,6 @@ public class BellmanFord {
 
 			if (custo[verticeDestino] > (custo[verticeAtual] + custoArco)){
 
-				System.out.println("\n\n\t\t!! Atualizando Custo !! - Custo acumulado: " + (custo[verticeAtual] + custoArco) + "\n");	
 				custo[verticeDestino] = custo[verticeAtual] + custoArco;
 				pai[verticeDestino] = verticeAtual;
 				filaPrioridade.alterarPrioridade(verticeDestino);
