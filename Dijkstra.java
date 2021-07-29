@@ -17,6 +17,7 @@ public class Dijkstra{
 
 		//Instancia o objeto e já executa o algoritmo de Dijkstra
 		dijkstra();
+		//imprimeResultados();
 
 	}
 
@@ -32,8 +33,7 @@ public class Dijkstra{
 		  custo[i] = INFINITO;	
 			pai[i] = -1;
 		}  
-		
-		filaPrioridade.inicializar();    
+		 
 
 		//	Ajuste do Vertice Origem    
 		custo[verticeOrigem] = 0;
@@ -42,6 +42,11 @@ public class Dijkstra{
 
 		// Percorre todos os Vertices que estao na Fila de Prioridade
 		while(!filaPrioridade.estaVazia()){
+
+			if(!filaPrioridade.validaMinHeap()){
+				System.out.println("\n\n!!!!! MIN-HEAP INVALIDO !!!!!");
+				return;
+			}
 
 			verticeAtual = filaPrioridade.delMin();
 			arco = digrafo.getArco(verticeAtual);
@@ -83,18 +88,23 @@ public class Dijkstra{
 
 	private void imprimeResultados(){
 
-		System.out.println("\n\n------- RESULTADOS -------");
+		System.out.println("\n\n------- RESULTADOS DIJKSTRA -------");
 
-		System.out.println("\n------- CUSTOS");
+		System.out.println("\n------- CUSTOS ------------------");
 		for(int i = 0; i < numVertices; i++){
 			System.out.println("Custo[" + i + "] = " + custo[i]);
 		}
 
-		System.out.println("\n------- PAIS");
+		System.out.println("\n------- PAIS ------------------");
 		for(int i = 0; i < numVertices; i++){
 			System.out.println("Pai[" + i + "] = " + pai[i]);
 		}
 
+	}
+
+
+	public int[] getCustos(){
+		return custo;
 	}
 
 }

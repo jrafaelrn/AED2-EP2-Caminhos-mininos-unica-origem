@@ -34,7 +34,7 @@ VAI MELHORANDO O CUSTO SEGUINDO A ORDENAÇÃO TOPOLÓGICA
 		ultimoPilha = 0;
 
 		dagMin();
-		imprimeResultados();
+		//imprimeResultados();
 
 	}
 
@@ -50,12 +50,15 @@ VAI MELHORANDO O CUSTO SEGUINDO A ORDENAÇÃO TOPOLÓGICA
 
 
 		//	2° PARTE - Inicializar o custo do vértice de origem para todos os outros vértices como INFINITO.		
-		for(v = 0; v < numVertices; v++)
+		for(v = 0; v < numVertices; v++){
 			custo[v] = INFINITO;
+			pai[v] = -1;
+		}
 		
 
 		//A distância / custo do vértice de origem até ele mesmo é 0.
 		custo[verticeOrigem] = 0;
+		pai[verticeOrigem] = verticeOrigem;
 
 
 		//	3° PARTE 
@@ -179,18 +182,24 @@ VAI MELHORANDO O CUSTO SEGUINDO A ORDENAÇÃO TOPOLÓGICA
 
 	private void imprimeResultados(){
 
-		System.out.println("\n\n------- RESULTADOS -------");
+		System.out.println("\n\n------- RESULTADOS DAGMIN -------");
 
-		System.out.println("\n------- CUSTOS");
+		System.out.println("\n------- CUSTOS -------");
 		for(int i = 0; i < numVertices; i++){
 			System.out.println("Custo[" + i + "] = " + custo[i]);
 		}
 
-		System.out.println("\n------- PAIS");
+		System.out.println("\n------- PAIS-------");
 		for(int i = 0; i < numVertices; i++){
 			System.out.println("Pai[" + i + "] = " + pai[i]);
 		}
 
+	}
+
+
+	
+	public int[] getCustos(){
+		return custo;
 	}
 
 }

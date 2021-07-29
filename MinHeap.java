@@ -12,13 +12,6 @@
 		qp = new int[maxTamanho];
 	}
   
-
-
-	//	Precisa inicializar com 0, depois em inserir faço o pós-incremento.
-	public void inicializar(){
-		this.quantidadesDeElementos = 0;
-	}
-  
   
 
 	private void trocar(int primeiraPosicao, int segundaPosicao){
@@ -131,6 +124,31 @@
 		}
 
 		System.out.println(" ---------------------------------------------------- \n\n");
+
+	}
+
+
+	
+	public boolean validaMinHeap(){
+
+		System.out.println("Validando FILA PRIORIDADE");
+
+		for(int i = 1; i <= quantidadesDeElementos; i++){
+
+			if(filhoEsquerda(i) <= quantidadesDeElementos && Heap[i] > Heap[filhoEsquerda(i)]){
+				System.out.println("Atual[" + i + "] = " + Heap[i]);
+				System.out.println("Esquerda[" + filhoEsquerda(i) + "] = " + Heap[filhoEsquerda(i)]);
+				return false;
+			}
+
+			if(filhoDireita(i) <= quantidadesDeElementos && Heap[i] > Heap[filhoDireita(i)]){
+				System.out.println("Atual[" + i + "] = " + Heap[i]);
+				System.out.println("Direita[" + filhoDireita(i) + "] = " + Heap[filhoDireita(i)]);	
+				return false;
+			}
+		}
+
+		return true;
 
 	}
 

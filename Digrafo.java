@@ -8,7 +8,7 @@ public class Digrafo {
 
 	public Digrafo(int tamanho){
 		
-		this.numVertices = tamanho;//Tamanho de um grafo
+		this.numVertices = tamanho;		//Tamanho de um grafo
 		this.numArcos = 0;
 		this.listaAdj = new Link[tamanho];
 
@@ -33,11 +33,11 @@ public class Digrafo {
         
     for(int i = 0; i < numVertices; i++){    
 
-			System.out.println("Vertice[" + i + "] - " + listaAdj[i] + " - ");
+			System.out.println("Vertice[" + i + "]");
 			
 			Link arco = listaAdj[i];
 			while(arco != null){
-				System.out.println("\t\t\tPosicao Destino: " + arco.posVerticeDestino + "\tCusto: " + arco.custo);
+				System.out.println("\t\t\tVertice Destino: " + arco.posVerticeDestino + "\tCusto: " + arco.custo);
 				arco = arco.proximo;
 				numArcos++;
 			}
@@ -78,20 +78,9 @@ public class Digrafo {
 	public void setNovoArco(int posOrigem, int posDestino, int custo){
 		
 		if (posOrigem == posDestino) return;
-		
-		Link arco = listaAdj[posOrigem];
-
-		while (arco != null){
-			
-			if (arco.posVerticeDestino == posDestino) 
-				return;
-			
-			arco = arco.proximo;
-
-		}
 
 		Link antigaCabeca = listaAdj[posOrigem];
-		arco = new Link(posDestino, custo, antigaCabeca);
+		Link arco = new Link(posDestino, custo, antigaCabeca);
 
 		listaAdj[posOrigem] = arco;
 		numArcos++;

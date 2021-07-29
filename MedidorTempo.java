@@ -1,31 +1,29 @@
-public class MedidorTempo {
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadMXBean;
 
-	private long inicio, inicioClock;
+
+public class MedidorTempo {	
+
+ 	private long inicio, inicioCpu;
+	 
 	
-	
-	// Métodos baseados no Tempo
 	public void comeca() {
-		//Marca o inicio do tempo.
 		inicio = System.currentTimeMillis();
 	}
 	
-
 	public long termina() {
-		//Pega o instante que terminou menos oque comecou e divide por 1000(milisegundo)
-		return (System.currentTimeMillis() - inicio) / 1000;
+		return (System.currentTimeMillis() - inicio);
 	}
 
 
-	
-	// Métodos baseados no Clock
-
-	public void comecaClock(){
-		inicioClock = System.currentTimeMillis();
+	public void comecaCpuTime( ) {
+		ThreadMXBean bean = ManagementFactory.getThreadMXBean( );
+		inicioCpu = bean.isCurrentThreadCpuTimeSupported( ) ? bean.getCurrentThreadCpuTime() : 0L;
 	}
 
+  public long terminaCpuTime( ) {
+    ThreadMXBean bean = ManagementFactory.getThreadMXBean( );
+    return bean.isCurrentThreadCpuTimeSupported( ) ? (bean.getCurrentThreadCpuTime() - inicioCpu)/1000000 : 0L;
+  }
 
-	public long terminaClock(){
-		return 0;
-
-	}
 }
