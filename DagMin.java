@@ -188,12 +188,12 @@ VAI MELHORANDO O CUSTO SEGUINDO A ORDENAÇÃO TOPOLÓGICA
 		for(int i = 0; i < numVertices; i++){
 			System.out.println("Custo[" + i + "] = " + custo[i]);
 		}
-
+		
 		System.out.println("\n------- PAIS-------");
 		for(int i = 0; i < numVertices; i++){
 			System.out.println("Pai[" + i + "] = " + pai[i]);
 		}
-
+		
 	}
 
 

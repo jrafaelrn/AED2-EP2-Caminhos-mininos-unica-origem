@@ -1,81 +1,68 @@
  public class MinHeap {
 
-	private int[] Heap, custo, qp;
-	private int quantidadesDeElementos;
+	private int[] heap, custo, qp;
+	private int qtdElementos;
 	private static final int PRIMEIRO = 1;
   
 
 	public MinHeap(int maxTamanho, int[] custo){
-		this.quantidadesDeElementos = 0;
+		this.qtdElementos = 0;
 		this.custo = custo;
-		Heap = new int[maxTamanho+1];
+		heap = new int[maxTamanho+1];
 		qp = new int[maxTamanho];
 	}
   
   
 
-	private void trocar(int primeiraPosicao, int segundaPosicao){
+	private void trocar(int i, int j){
 
 		int auxiliar;
-		auxiliar = Heap[primeiraPosicao];
-		Heap[primeiraPosicao] = Heap[segundaPosicao];
-		Heap[segundaPosicao] = auxiliar;
+		auxiliar = heap[i];
+		heap[i] = heap[j];
+		heap[j] = auxiliar;
 
-		qp[Heap[primeiraPosicao]] = primeiraPosicao;
-		qp[Heap[segundaPosicao]] = segundaPosicao;
-
-	}
-
-
-
-  public void inserir(int elemento){
-		
-		qp[elemento] = quantidadesDeElementos + 1;
-
-		Heap[++quantidadesDeElementos] = elemento;
-		fixUp(quantidadesDeElementos);
+		qp[heap[i]] = i;
+		qp[heap[j]] = j;
 
 	}
 
 
 
-	private void fixUp(int posicao){
+  public void inserir(int v){
 		
-		int paiAtual;
+		qp[v] = ++qtdElementos;
+		heap[qtdElementos] = v;
+		fixUp(qtdElementos);
 
-		if(posicao/2 < 1) return;
-		
-		paiAtual = Heap[pai(posicao)];
-		int atual = Heap[posicao];
+	}
 
-		while(pai(posicao) > 0 && custo[paiAtual] > custo[atual]){
-			trocar(posicao, pai(posicao));
-			posicao = pai(posicao);
+
+
+	private void fixUp(int i){
+
+		while(i > 1 && custo[heap[pai(i)]] > custo[heap[i]]){
+			trocar(pai(i), i);
+			i = pai(i);
 		}
 
 	}
 
 
-	private void fixDown(int posicao){
+	private void fixDown(int i){
 
-		int posicaoFilho;
+		while(filhoEsquerda(i) <= qtdElementos){
 
-		while(filhoEsquerda(posicao) <= quantidadesDeElementos){
+			int j = filhoEsquerda(i);
 
-			int verticeFilhoEsquerda = Heap[filhoEsquerda(posicao)];
-			posicaoFilho = filhoEsquerda(posicao);
+			if (j < qtdElementos && custo[heap[j]] > custo[heap[j+1]])
+				j++;
 
-			if (filhoEsquerda(posicao) < quantidadesDeElementos && custo[verticeFilhoEsquerda] > custo[Heap[filhoDireita(posicao)]])
-				posicaoFilho = filhoDireita(posicao);
+			if(custo[heap[i]] <= custo[heap[j]]) break;
 
-			if(custo[Heap[posicao]] <= custo[Heap[posicaoFilho]])
-				break;
-
-			trocar(posicao, posicaoFilho);
-			posicao = posicaoFilho;
+			trocar(i, j);
+			i = j;
 
 		}
-
 
 	}
 
@@ -83,11 +70,11 @@
 
 	public int delMin(){
 
-		trocar(PRIMEIRO, quantidadesDeElementos);
-		quantidadesDeElementos--;
+		trocar(PRIMEIRO, qtdElementos);
+		--qtdElementos;
 		fixDown(PRIMEIRO);
 
-		return Heap[quantidadesDeElementos+1];
+		return heap[qtdElementos+1];
 
 	}
 
@@ -106,21 +93,21 @@
 	//     IMPRESSÃO / DEBUG     //
 	//////////////////////////////
 		
-	public void imprimeMinHeap(){
+	public void imprimeMinheap(){
 		
 		System.out.println("\n\n\n -------------- IMPRIMINDO HEAP -------------- ");
-		System.out.println("QUANTIDADE DE ELEMENTOS: " + this.quantidadesDeElementos);
+		System.out.println("QUANTIDADE DE ELEMENTOS: " + this.qtdElementos);
 			
-		for (int i = 1; i <= this.quantidadesDeElementos/2; i++) {
-				System.out.print("Pai : " + Heap[i]  
-								+ "\tFilho Esquerda : " + Heap[2 * i]
-								+ "\tFilho Direita : " + Heap[2 * i + 1]);
+		for (int i = 1; i <= this.qtdElementos/2; i++) {
+				System.out.print("Pai : " + heap[i]  
+								+ "\tFilho Esquerda : " + heap[2 * i]
+								+ "\tFilho Direita : " + heap[2 * i + 1]);
 				System.out.println("\n");
 			}
 		
 		
-		for(int i = 1; i <= this.quantidadesDeElementos; i++){
-			System.out.println("Vertice: " + Heap[i] + " - CustoAcumulado: " + custo[Heap[i]]);
+		for(int i = 1; i <= this.qtdElementos; i++){
+			System.out.println("Vertice: " + heap[i] + " - CustoAcumulado: " + custo[heap[i]]);
 		}
 
 		System.out.println(" ---------------------------------------------------- \n\n");
@@ -131,19 +118,19 @@
 	
 	public boolean validaMinHeap(){
 
-		System.out.println("Validando FILA PRIORIDADE");
+		//System.out.println("\n\tValidando FILA PRIORIDADE");
 
-		for(int i = 1; i <= quantidadesDeElementos; i++){
+		for(int i = 1; i <= qtdElementos; i++){
 
-			if(filhoEsquerda(i) <= quantidadesDeElementos && Heap[i] > Heap[filhoEsquerda(i)]){
-				System.out.println("Atual[" + i + "] = " + Heap[i]);
-				System.out.println("Esquerda[" + filhoEsquerda(i) + "] = " + Heap[filhoEsquerda(i)]);
+			if(filhoEsquerda(i) <= qtdElementos && custo[heap[i]] > custo[heap[filhoEsquerda(i)]]){
+				System.out.println("\t\tAtual[" + i + "] = " + heap[i]);
+				System.out.println("\t\tEsquerda[" + filhoEsquerda(i) + "] = " + custo[heap[filhoEsquerda(i)]]);
 				return false;
 			}
 
-			if(filhoDireita(i) <= quantidadesDeElementos && Heap[i] > Heap[filhoDireita(i)]){
-				System.out.println("Atual[" + i + "] = " + Heap[i]);
-				System.out.println("Direita[" + filhoDireita(i) + "] = " + Heap[filhoDireita(i)]);	
+			if(filhoDireita(i) <= qtdElementos && custo[heap[i]] > custo[heap[filhoDireita(i)]]){
+				System.out.println("\t\tAtual[" + i + "] = " + custo[heap[i]]);
+				System.out.println("\t\tDireita[" + filhoDireita(i) + "] = " + custo[heap[filhoDireita(i)]]);	
 				return false;
 			}
 		}
@@ -159,7 +146,7 @@
 	//////////////////////////
 
 	public boolean estaVazia(){
-		return quantidadesDeElementos == 0;
+		return qtdElementos == 0;
 	}
 
 

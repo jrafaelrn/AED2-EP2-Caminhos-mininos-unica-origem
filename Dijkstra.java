@@ -44,7 +44,7 @@ public class Dijkstra{
 		while(!filaPrioridade.estaVazia()){
 
 			if(!filaPrioridade.validaMinHeap()){
-				System.out.println("\n\n!!!!! MIN-HEAP INVALIDO !!!!!");
+				//System.out.println("\n\n!!!!! MIN-HEAP INVALIDO !!!!!");
 				return;
 			}
 
@@ -94,12 +94,12 @@ public class Dijkstra{
 		for(int i = 0; i < numVertices; i++){
 			System.out.println("Custo[" + i + "] = " + custo[i]);
 		}
-
+		
 		System.out.println("\n------- PAIS ------------------");
 		for(int i = 0; i < numVertices; i++){
 			System.out.println("Pai[" + i + "] = " + pai[i]);
 		}
-
+		
 	}
 
 

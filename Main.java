@@ -7,26 +7,26 @@ class Main{
 		
 
 		System.out.println("*********  INICIANDO SIMULACAO  ************");
-		//int tam = 10000;
-		int tam = 1000000;
+		int tam = 10000;
 			
 		// Loop para simular diferentes tamanhos entradas
-		while (tam <= 1000000){
+		while (tam <= 100000){
 
 			System.out.print("\n---- Tamanho Esperado:\t" + tam + "\t- Densidade: ");
 			
 			// Loop para simular diferentes probabilidades/densidades
-			for (double prob = 9; prob < 10; prob++){
+			for (double prob = 1; prob < 10; prob++){
 
 				double probabilidade = prob/10;
 				System.out.print((int) (probabilidade * 100) + " %, ");
 							
 				try{
-						Simulacao simula = new Simulacao(tam, probabilidade, 1000); 		//Variar custo maximo?
+						Simulacao simula = new Simulacao(tam, probabilidade, 100); 		//Variar custo maximo?
 				}
 				catch (Exception e){
 						System.out.println(" !!! Erro na simulacao !!!");
 						e.printStackTrace();
+						return;
 				}
 						
 			}
@@ -42,9 +42,7 @@ class Main{
 
 		}
 
-		System.out.println("\n\n**********  SIMULACAO FINALIZADA  ********");
-
-		
+		System.out.println("\n\n**********  SIMULACAO FINALIZADA  ********");		
 
 	}
 
@@ -71,7 +69,7 @@ class Main{
 		System.out.println("\nComecando -- ");
 
 		//Encontra caminho minino com BELLMAN-FORD
-		BellmanFord bf = new BellmanFord(d1, 0);
+		BellmanFord bf = new BellmanFord(d1, 0, 100);
 
 		
 		long tempoClock = medidor.terminaCpuTime();

@@ -26,35 +26,34 @@ public class Simulacao{
 	private void simulaTudo() throws IOException {
 
 		numVertices = Simulacao.getNumeroVertices_Digrafo(tamanho, probabilidade);
-		int vInicial = 0; 
+		int vInicial = 50; 
 
 		digrafo = new Digrafo(numVertices);
 		gerarDigrafo();
-		System.out.println("\n\nARBITRARIOS");
+		//System.out.println("\n********** DIGRAFOS ARBITRARIOS Tamanho: " + (numVertices + digrafo.getNumArcos()));
 		simulaDijkstra(vInicial, "DIGRAFO");		
 		simulaBellmanFord(vInicial, "DIGRAFO");		
 
 		
-		if(validaCustosDigrafos())
-			System.out.println("ARBITRARIOS - Custos iguais");
-		else
-			System.out.println("ARBITRARIOS - Custos diferentes");
+		if(!validaCustosDigrafos()){
+			System.out.println("DIGRAFOS ARBITRARIOS - Custos diferentes");
+			throw new IOException("DIGRAFOS ARBITRARIOS - Custos diferentes");
+		}
+		
 
 
-
-		numVertices = getNumeroVertices_Dag(tamanho, probabilidade)*2;
+		numVertices = getNumeroVertices_Dag(tamanho, probabilidade);
 		digrafo = new Digrafo(numVertices);
 		gerarDag();
-		System.out.println("\n\nDAGs");
+		//System.out.println("\n********** DAGs - Tamanho: " + (numVertices + digrafo.getNumArcos()));
 		simulaDijkstra(vInicial, "DAG");
 		simulaBellmanFord(vInicial, "DAG");
 		simulaDagMin(vInicial, "DAG");
 
-		if(validaCustosDags())
-			System.out.println("DAGs - Custos iguais");
-		else
+		if(!validaCustosDags()){
 			System.out.println("DAGs - Custos diferentes");
-
+			throw new IOException("DIGRAFOS ARBITRARIOS - Custos diferentes");
+		}
 
 	}
 
@@ -110,16 +109,12 @@ public class Simulacao{
 	private void simulaDijkstra(int vInicial, String tipo){
 
 		medidor.comecaCpuTime();
-		medidor.comeca();
-		System.out.println("\nComecando Dijkstra");
 
 		Dijkstra dij = new Dijkstra(digrafo, vInicial);
 		custoDijkstra = dij.getCustos();
 
 		long tempoClock = medidor.terminaCpuTime();
 		long tempoDireto = medidor.termina();
-		System.out.println("DIJKSTRA - TEMPO CLOCK: " + tempoClock + " (ms)");
-		System.out.println("DIJKSTRA - TEMPO DIRETO: " + tempoDireto + " (ms)\n");
 		
 		String log = "ALGORITMO:DIJKSTRA;TIPO:" + tipo + ";TAMANHO:" + tamanho + ";DENSIDADE:" + probabilidade + ";TEMPO-CLOCK:" + tempoClock;
 		gravarArquivoLog(log);
@@ -130,16 +125,11 @@ public class Simulacao{
 	private void simulaBellmanFord(int vInicial, String tipo){
 
 		medidor.comecaCpuTime();
-		medidor.comeca();
-		System.out.println("\nComecando Bellman Ford");
 
-		BellmanFord bf = new BellmanFord(digrafo, vInicial);
+		BellmanFord bf = new BellmanFord(digrafo, vInicial, custoMaximo);
 		custoBellmanFord = bf.getCustos();
 
 		long tempoClock = medidor.terminaCpuTime();
-		long tempoDireto = medidor.termina();
-		System.out.println("BELLMAN-FORD - TEMPO CLOCK: " + tempoClock + " (ms)");
-		System.out.println("BELLMAN-FORD - TEMPO DIRETO: " + tempoDireto + " (ms)\n");
 
 		String log = "ALGORITMO:BELLMAN-FORD;TIPO:" + tipo + ";TAMANHO:" + tamanho + ";DENSIDADE:" + probabilidade + ";TEMPO:" + tempoClock;
 		gravarArquivoLog(log);
@@ -150,16 +140,11 @@ public class Simulacao{
 	private void simulaDagMin(int vInicial, String tipo){
 
 		medidor.comecaCpuTime();
-		medidor.comeca();
-		System.out.println("\nComecando DagMIN");
 
 		DagMin dg = new DagMin(digrafo, vInicial);
 		custoDagMin = dg.getCustos();
 		
 		long tempoClock = medidor.terminaCpuTime();
-		long tempoDireto = medidor.termina();
-		System.out.println("DAGMIN - TEMPO CLOCK: " + tempoClock + " (ms)");
-		System.out.println("DAGMIN - TEMPO DIRETO: " + tempoDireto + " (ms)\n");
 
 		String log = "ALGORITMO:DAG-MIN;TIPO:" + tipo + ";TAMANHO:" + tamanho + ";DENSIDADE:" + probabilidade + ";TEMPO:" + tempoClock;
 		gravarArquivoLog(log);
@@ -198,7 +183,7 @@ public class Simulacao{
 	
 	static int getNumeroVertices_Dag(int tamanhoEntrada, double probabilidade){
 
-		double num = ((probabilidade/2) - 1) + Math.sqrt((Math.pow((1 - (probabilidade/2)),2) + 4 * (probabilidade/2) * tamanhoEntrada)) / (2 * (probabilidade/2));
+		double num =  (int) Math.round(((probabilidade/2 - 1) + Math.sqrt(Math.pow((1 - probabilidade/2), 2) + 4 * probabilidade/ 2 * tamanhoEntrada)) / (2 * probabilidade/ 2));
 		return (int) Math.round(num);
 
 	}
@@ -238,12 +223,14 @@ public class Simulacao{
 
 		for (int i = 0; i < numVertices; i++){
 			if(custoDijkstra[i] != custoBellmanFord[i]){
+				System.out.println("\n!!Problema com Dijkstra e BellmanFord");
 				System.out.println("Custo Dijkstra[" + i + "] = " + custoDijkstra[i]);
 				System.out.println("Custo BellmanF[" + i + "] = " + custoBellmanFord[i]);
 				return false;
 			}
 		}
 
+		//System.out.println("\n!!Dijkstra e BellmanFord = OK");
 		return true;
 
 	}
@@ -287,13 +274,13 @@ public class Simulacao{
 
 		
 		if (!dij_bmf) System.out.println("\n!!Problema com Dijkstra e BellmanFord");
-		else System.out.println("\n!!Dijkstra e BellmanFord = OK");
+		//else System.out.println("\n!!Dijkstra e BellmanFord = OK");
 
 		if (!dij_dag) System.out.println("\n!!Problema com Dijkstra e DAG");
-		else System.out.println("\n!!Dijkstra e DAG = OK");
+		//else System.out.println("\n!!Dijkstra e DAG = OK");
 
 		if (!bmf_dag) System.out.println("\n!!Problema com BellmanFord e DAG");
-		else System.out.println("\n!!BellmanFord e DAG = OK");
+		//else System.out.println("\n!!BellmanFord e DAG = OK");
 
 
 		if(!dij_bmf || !dij_dag || !bmf_dag) return false;
