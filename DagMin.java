@@ -33,21 +33,17 @@ VAI MELHORANDO O CUSTO SEGUINDO A ORDENAÇÃO TOPOLÓGICA
 		ts = new int[numVertices];
 		ultimoPilha = 0;
 
-		dagMin();
-		//imprimeResultados();
+		//	1° PARTE - Classifique topologicamente os vértices
+		gerarOrdenacaoTopologica();
 
 	}
 
 
 
-	private void dagMin() {
+	public void caminhosMinimos() {
 			
 		Link p;
 		int i, v;
-
-		//	1° PARTE - Classifique topologicamente os vértices
-		gerarOrdenacaoTopologica();
-
 
 		//	2° PARTE - Inicializar o custo do vértice de origem para todos os outros vértices como INFINITO.		
 		for(v = 0; v < numVertices; v++){

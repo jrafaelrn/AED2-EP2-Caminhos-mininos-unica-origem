@@ -17,16 +17,11 @@ public class BellmanFord {
 		//INFINITO = Integer.MAX_VALUE/numVertices;
 		INFINITO = Integer.MAX_VALUE;
 
-		//Instancia o objeto e já executa o algoritmo de Bellman-Ford
-		bellman_Ford();
-		
-		//imprimeResultados();
-
 	}
 
 
 
-	private void bellman_Ford(){
+	public void caminhosMinimos(){
 	
 		//Etapa 1: preencha a matriz de distânciae a matriz pai
 		for(int v = 0; v < numVertices; v++){

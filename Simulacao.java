@@ -108,15 +108,15 @@ public class Simulacao{
 
 	private void simulaDijkstra(int vInicial, String tipo){
 
-		medidor.comecaCpuTime();
-
 		Dijkstra dij = new Dijkstra(digrafo, vInicial);
-		custoDijkstra = dij.getCustos();
 
+		medidor.comecaCpuTime();
+		dij.caminhosMinimos();
 		long tempoClock = medidor.terminaCpuTime();
-		long tempoDireto = medidor.termina();
+
+		custoDijkstra = dij.getCustos();
 		
-		String log = "ALGORITMO:DIJKSTRA;TIPO:" + tipo + ";TAMANHO:" + tamanho + ";DENSIDADE:" + probabilidade + ";TEMPO-CLOCK:" + tempoClock;
+		String log = "ALGORITMO:DIJKSTRA;TIPO:" + tipo + ";TAMANHO:" + tamanho + ";DENSIDADE:" + probabilidade + ";TEMPO:" + tempoClock;
 		gravarArquivoLog(log);
 
 	}
@@ -124,12 +124,13 @@ public class Simulacao{
 
 	private void simulaBellmanFord(int vInicial, String tipo){
 
-		medidor.comecaCpuTime();
-
 		BellmanFord bf = new BellmanFord(digrafo, vInicial, custoMaximo);
-		custoBellmanFord = bf.getCustos();
-
+		
+		medidor.comecaCpuTime();
+		bf.caminhosMinimos();
 		long tempoClock = medidor.terminaCpuTime();
+		
+		custoBellmanFord = bf.getCustos();
 
 		String log = "ALGORITMO:BELLMAN-FORD;TIPO:" + tipo + ";TAMANHO:" + tamanho + ";DENSIDADE:" + probabilidade + ";TEMPO:" + tempoClock;
 		gravarArquivoLog(log);
@@ -139,12 +140,13 @@ public class Simulacao{
 
 	private void simulaDagMin(int vInicial, String tipo){
 
-		medidor.comecaCpuTime();
-
 		DagMin dg = new DagMin(digrafo, vInicial);
-		custoDagMin = dg.getCustos();
-		
+
+		medidor.comecaCpuTime();
+		dg.caminhosMinimos();
 		long tempoClock = medidor.terminaCpuTime();
+
+		custoDagMin = dg.getCustos();
 
 		String log = "ALGORITMO:DAG-MIN;TIPO:" + tipo + ";TAMANHO:" + tamanho + ";DENSIDADE:" + probabilidade + ";TEMPO:" + tempoClock;
 		gravarArquivoLog(log);

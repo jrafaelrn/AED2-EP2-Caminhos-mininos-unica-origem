@@ -10,7 +10,7 @@ class Main{
 		int tam = 10000;
 			
 		// Loop para simular diferentes tamanhos entradas
-		while (tam <= 100000){
+		while (tam <= 3000000){
 
 			System.out.print("\n---- Tamanho Esperado:\t" + tam + "\t- Densidade: ");
 			

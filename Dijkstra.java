@@ -15,14 +15,10 @@ public class Dijkstra{
 		this.filaPrioridade = new MinHeap(numVertices, custo);
 		this.pai = new int[numVertices];		
 
-		//Instancia o objeto e já executa o algoritmo de Dijkstra
-		dijkstra();
-		//imprimeResultados();
-
 	}
 
 
-	private void dijkstra(){
+	public void caminhosMinimos(){
 	
 		//Encontra o caminho mais curto, usar uma estrutura heap	 
 		int verticeAtual;
@@ -42,11 +38,6 @@ public class Dijkstra{
 
 		// Percorre todos os Vertices que estao na Fila de Prioridade
 		while(!filaPrioridade.estaVazia()){
-
-			if(!filaPrioridade.validaMinHeap()){
-				//System.out.println("\n\n!!!!! MIN-HEAP INVALIDO !!!!!");
-				return;
-			}
 
 			verticeAtual = filaPrioridade.delMin();
 			arco = digrafo.getArco(verticeAtual);
