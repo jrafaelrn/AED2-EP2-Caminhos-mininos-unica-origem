@@ -26,7 +26,7 @@ public class Simulacao{
 	private void simulaTudo() throws IOException {
 
 		numVertices = Simulacao.getNumeroVertices_Digrafo(tamanho, probabilidade);
-		int vInicial = 50; 
+		int vInicial = 0; 
 
 		digrafo = new Digrafo(numVertices);
 		gerarDigrafo();

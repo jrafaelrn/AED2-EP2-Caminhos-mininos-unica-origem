@@ -10,9 +10,9 @@ class Main{
 		int tam = 10000;
 			
 		// Loop para simular diferentes tamanhos entradas
-		while (tam <= 3000000){
+		while (tam <= 500000){
 
-			System.out.print("\n---- Tamanho Esperado:\t" + tam + "\t- Densidade: ");
+			System.out.print("\n---- Tamanho Esperado:\t" + tam + " - Densidade: ");
 			
 			// Loop para simular diferentes probabilidades/densidades
 			for (double prob = 1; prob < 10; prob++){
