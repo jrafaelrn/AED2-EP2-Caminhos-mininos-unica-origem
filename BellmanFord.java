@@ -3,7 +3,7 @@ public class BellmanFord {
 	private int[] pai, custo;
 	private int numVertices, verticeOrigem;
 	private Digrafo digrafo;
-	static int INFINITO;
+	static int INFINITO = Integer.MAX_VALUE;
 
 
 	public BellmanFord(Digrafo digrafo, int verticeOrigem, int custoMaximo){
@@ -13,9 +13,6 @@ public class BellmanFord {
 		pai = new int[numVertices];
 		this.verticeOrigem = verticeOrigem;
 		this.digrafo = digrafo;
-		//INFINITO = Integer.MAX_VALUE - custoMaximo;
-		//INFINITO = Integer.MAX_VALUE/numVertices;
-		INFINITO = Integer.MAX_VALUE;
 
 	}
 

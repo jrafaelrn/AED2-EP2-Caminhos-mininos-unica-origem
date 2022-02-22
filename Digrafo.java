@@ -12,9 +12,8 @@ public class Digrafo {
 		this.numArcos = 0;
 		this.listaAdj = new Link[tamanho];
 
-		for(int v = 0; v < tamanho; v++){
+		for(int v = 0; v < tamanho; v++)
 			listaAdj[v] = null;
-		}
 
   }
 	
