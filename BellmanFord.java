@@ -1,12 +1,11 @@
-public class BellmanFord { 
+public class BellmanFord {
 
 	private int[] pai, custo;
 	private int numVertices, verticeOrigem;
 	private Digrafo digrafo;
 	static int INFINITO = Integer.MAX_VALUE;
 
-
-	public BellmanFord(Digrafo digrafo, int verticeOrigem, int custoMaximo){
+	public BellmanFord(Digrafo digrafo, int verticeOrigem, int custoMaximo) {
 
 		numVertices = digrafo.getNumVertices();
 		custo = new int[numVertices];
@@ -16,44 +15,42 @@ public class BellmanFord {
 
 	}
 
+	public void caminhosMinimos() {
 
-
-	public void caminhosMinimos(){
-	
-		//Etapa 1: preencha a matriz de distânciae a matriz pai
-		for(int v = 0; v < numVertices; v++){
+		// Etapa 1: preencha a matriz de distânciae a matriz pai
+		for (int v = 0; v < numVertices; v++) {
 			custo[v] = INFINITO;
 			pai[v] = -1;
 		}
 
-		custo[verticeOrigem] = 0;   
+		custo[verticeOrigem] = 0;
 		pai[verticeOrigem] = verticeOrigem;
 		Link arco;
 
-		//Etapa 2: relaxar as arestas | V | - 1 vez		
-		for(int k = 1; k < numVertices; k++){
+		// Etapa 2: relaxar as arestas | V | - 1 vez
+		for (int k = 1; k < numVertices; k++) {
 
-			for(int verticeAtual = 0; verticeAtual < numVertices; verticeAtual++){
+			for (int verticeAtual = 0; verticeAtual < numVertices; verticeAtual++) {
 
 				arco = digrafo.getArco(verticeAtual);
 
-				while(arco != null)	{					  
+				while (arco != null) {
 					relaxa(verticeAtual, arco.posVerticeDestino, arco.custo);
-					arco = arco.proximo;  
+					arco = arco.proximo;
 				}
 
 			}
-			
-		}				
+
+		}
 
 	}
 
+	private void relaxa(int verticeAtual, int verticeDestino, int custoArco) {
 
-	private void relaxa(int verticeAtual, int verticeDestino, int custoArco){
+		if (custo[verticeAtual] == INFINITO)
+			return;
 
-		if (custo[verticeAtual] == INFINITO) return;
-
-		if (custo[verticeDestino] > (custo[verticeAtual] + custoArco)){
+		if (custo[verticeDestino] > (custo[verticeAtual] + custoArco)) {
 
 			custo[verticeDestino] = custo[verticeAtual] + custoArco;
 			pai[verticeDestino] = verticeAtual;
@@ -62,28 +59,24 @@ public class BellmanFord {
 
 	}
 
-
-
-	private void imprimeResultados(){
+	private void imprimeResultados() {
 
 		System.out.println("\n\n------- RESULTADOS BELLMAN-FORD ----------");
 
 		System.out.println("\n----------------- CUSTOS ------------------");
-		for(int i = 0; i < numVertices; i++){
+		for (int i = 0; i < numVertices; i++) {
 			System.out.println("Custo[" + i + "] = " + custo[i]);
 		}
-		
+
 		System.out.println("\n----------------- PAIS ----------------");
-		for(int i = 0; i < numVertices; i++){
+		for (int i = 0; i < numVertices; i++) {
 			System.out.println("Pai[" + i + "] = " + pai[i]);
 		}
-		
+
 	}
 
-
-	public int[] getCustos(){
+	public int[] getCustos() {
 		return custo;
 	}
-
 
 }
